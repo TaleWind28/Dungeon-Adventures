@@ -29,7 +29,7 @@ public class Player extends Monster{
     }
 
     public int drinkPotion(){
-        int randValue = new Random().nextInt(this.potionLeft);
+        int randValue = new Random().nextInt(this.potionLeft)+1;
         this.takeDamage(-randValue);
         this.potionLeft-=randValue;
         return randValue;

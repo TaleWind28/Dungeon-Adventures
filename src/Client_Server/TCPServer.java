@@ -49,6 +49,7 @@ public class TCPServer {
         }
     }
 
+    //apre il socket e passa al threadpool i vari client
     public void dial(){
         while(true){
             try (ServerSocket server = new ServerSocket(this.PORT)) {

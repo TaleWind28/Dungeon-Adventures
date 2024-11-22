@@ -18,7 +18,8 @@ public class Client extends TCPClient {
         try{
             while(true){
                 String serverAnswer = this.receiveMessage();
-                System.out.println(serverAnswer);
+                if(serverAnswer!=null)System.out.println(serverAnswer);
+                
                 if(serverAnswer.contains("Che peccato, Il mostro ti ha impaurito!") || serverAnswer.contains("Il mostro ti ha ucciso")){
                     System.out.println("partita terminata");
                     //disconnettere client

@@ -49,7 +49,7 @@ public abstract class TCPClient extends Communication_Protocol{
 
         }
         catch(Exception e ){
-            System.out.println(e.getClass()+" : "+e.getStackTrace());
+            System.out.println("eccecion: "+e.getClass()+" : "+e.getStackTrace());
         }
         
     }

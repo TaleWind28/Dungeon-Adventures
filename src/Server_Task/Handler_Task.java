@@ -49,10 +49,11 @@ public class Handler_Task extends Communication_Protocol implements Runnable{
             while(true){
                 //genero il mostro
                 Monster m1 = factory.createMonster();
-                this.sendMessage("Benvenuto o mio eroe aiutami a sconfiggere il mostro che ti si para davanti agli occhi, la bestia possiede ben "+m1.getHP()+" punti ferita,\nPer quanto ti riguarda hai "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni rimanenti");
+                this.sendMessage("Benvenuto o mio eroe aiutami a sconfiggere il mostro che ti si para davanti agli occhi\nPer quanto ti riguarda hai "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni rimanenti");
                 System.out.println(m1.getHP());
                 //ciclo finchè non muore il mostro
                 while(m1.isAlive()){
+                    this.sendMessage("Al mostro rimangono "+m1.getHP()+" punti ferita");
                     String client_input = this.receiveMessage();
                     System.out.println(client_input);
                     switch (client_input) {
@@ -62,7 +63,7 @@ public class Handler_Task extends Communication_Protocol implements Runnable{
                             break;
                         case "Bevi":
                             if(p1.getPotionLeft()<=0)client_response = "Hai terminato le pozioni";
-                            client_response = "Hai bevuto una pozione ed hai recuperato: "+p1.drinkPotion()+" HP";
+                            else client_response = "Hai bevuto una pozione ed hai recuperato: "+p1.drinkPotion()+" HP";
                             break;
                         case "Termina":
                             client_response = "Che peccato, Il mostro ti ha impaurito!";
@@ -75,7 +76,7 @@ public class Handler_Task extends Communication_Protocol implements Runnable{
                             break;
                     }
                     if(p1.isAlive()){
-                        client_response += "\nTi rimangono "+p1.getHP()+" punti ferita"; 
+                        client_response += "\nTi rimangono "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni di cura"; 
                     }else{
                         client_response += "\nIl mostro ti ha ucciso";
                         this.sendMessage(client_response);
