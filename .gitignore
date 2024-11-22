@@ -1,12 +1,1 @@
-src\Client.class
-src\bin\Client.class
-src\bin\Server.class
-src\bin\Client_Server\TCPCLient.class
-src\bin\Client_Server\TCPCLient$1.class
-src\bin\Client_Server\TCPServer.class
-src\bin\Game\Monster.class
-src\bin\Game\GameFactory.class
-src\bin\Game\Player.class
-src\bin\Server_Task\Communication_Protocol.class
-src\bin\Server_Task\HandlerTask.class
-src\bin\Server_Task\ReceiverTask.class
+*.class
