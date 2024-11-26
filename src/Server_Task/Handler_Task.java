@@ -4,9 +4,10 @@ import Game.Monster;
 import Game.Player;
 import java.net.Socket;
 
+import Client_Server.TCP;
 import Client_Server.TCPServer;
 
-public class Handler_Task extends Communication_Protocol implements Runnable{
+public class Handler_Task extends TCP implements Runnable{
     private Socket client;
     private GameFactory factory;
     private TCPServer disconnectBehaviour;
@@ -54,7 +55,7 @@ public class Handler_Task extends Communication_Protocol implements Runnable{
                 //ciclo finchè non muore il mostro
                 while(m1.isAlive()){
                     this.sendMessage("Al mostro rimangono "+m1.getHP()+" punti ferita");
-                    String client_input = this.receiveMessage();
+                    String client_input = this.receiveMessage().payload;
                     System.out.println(client_input);
                     switch (client_input) {
                         case "Attacca":
@@ -88,9 +89,10 @@ public class Handler_Task extends Communication_Protocol implements Runnable{
                     
                 }
                 this.sendMessage(client_response+"\nIl mostro è stato sconfitto Congratulazioni!!\nPer continuare a giocare digitare si");
-                client_response = this.receiveMessage();
+                client_response = this.receiveMessage().payload;
                 if(!client_response.equals("si")){
-                    System.out.println(client_response+"risposta client");
+                    System.out.println(client_response+" risposta client");
+                    sendMessage("Grazie per aver giocato!");
                     this.disconnectBehaviour.onClientDisconnect(this.client);
                     return;
                 }   

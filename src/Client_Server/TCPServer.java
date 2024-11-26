@@ -38,7 +38,7 @@ public class TCPServer {
     }
 
     public synchronized void addClient(Socket clientSocket){
-         activeClients.add(clientSocket);
+        activeClients.add(clientSocket);
         System.out.println("Client connesso. Client attivi: " + activeClients.size());
 
         // Cancella il timeout se ci sono client attivi
@@ -54,6 +54,7 @@ public class TCPServer {
         while(true){
             try (ServerSocket server = new ServerSocket(this.PORT)) {
                 Socket client_Socket = server.accept();
+                //realizzare con factory per miglior versatilità
                 Handler_Task task = new Handler_Task(client_Socket,this);
                 addClient(client_Socket);
                 this.pool.execute(task);
