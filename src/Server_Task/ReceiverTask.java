@@ -2,12 +2,12 @@ package Server_Task;
 import java.util.Scanner;
 
 import Client_Server.TCP;
-import Client_Server.TCPClient;
+import Client_Server.ProtocolClient;
 
 public class ReceiverTask implements Runnable{
     TCP proto;
     Scanner userInput; 
-    public ReceiverTask(TCPClient proto, Scanner userInput){
+    public ReceiverTask(ProtocolClient proto, Scanner userInput){
         this.proto = proto;
         this.userInput = userInput;
     }

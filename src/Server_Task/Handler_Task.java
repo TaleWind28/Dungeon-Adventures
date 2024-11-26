@@ -5,12 +5,12 @@ import Game.Player;
 import java.net.Socket;
 
 import Client_Server.TCP;
-import Client_Server.TCPServer;
+import Client_Server.ProtocolServer;
 
 public class Handler_Task extends TCP implements Runnable{
     private Socket client;
     private GameFactory factory;
-    private TCPServer disconnectBehaviour;
+    private ProtocolServer disconnectBehaviour;
     
     public Handler_Task(Socket client_socket) throws Exception{
         super();
@@ -21,7 +21,7 @@ public class Handler_Task extends TCP implements Runnable{
         this.disconnectBehaviour = null; 
     }
     //overloading
-    public Handler_Task(Socket client_socket,TCPServer disconnection) throws Exception{
+    public Handler_Task(Socket client_socket,ProtocolServer disconnection) throws Exception{
         super();
         this.client = client_socket;
         setSender(client_socket);

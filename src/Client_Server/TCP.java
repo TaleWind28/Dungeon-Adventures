@@ -1,14 +1,10 @@
 package Client_Server;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
 
-public class TCP implements CommunicationProtocol{
+public class TCP implements Protocol{
     protected Scanner receiver;
     protected PrintWriter sender;
     protected String delimiter;

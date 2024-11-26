@@ -6,7 +6,7 @@ import Server_Task.Handler_Task;
 import java.util.*;
 import java.net.Socket;
 
-public class TCPServer {
+public class ProtocolServer {
     public int PORT;
     public ExecutorService pool;
     //private int activeClients = 0;
@@ -15,7 +15,7 @@ public class TCPServer {
     private List<Socket> activeClients;
     private ScheduledFuture<?> timeoutTask;
 
-    public TCPServer(int port, int numThreads){
+    public ProtocolServer(int port, int numThreads){
         this.PORT = port;
         this.pool = Executors.newFixedThreadPool(numThreads);
         this.activeClients = Collections.synchronizedList(new ArrayList<>());

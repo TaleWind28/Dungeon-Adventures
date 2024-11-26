@@ -1,6 +1,7 @@
-import Client_Server.TCPClient;
+import Client_Server.Message;
+import Client_Server.ProtocolClient;
 
-public class Client extends TCPClient {
+public class Client extends ProtocolClient {
     public volatile boolean canSend;
     
     public Client(String IP, int PORT){
@@ -9,16 +10,14 @@ public class Client extends TCPClient {
     }
     
     public static void main(String args[]) throws Exception{
-        TCPClient client = new Client("127.0.0.1", 20000);
+        ProtocolClient client = new Client("127.0.0.1", 20000);
         client.multiDial();
-        //unreached code
-        //System.out.println("Grazie per aver Giocato");
     }
 
     public void receiveBehaviour(){
         try{
             while(true){
-                String serverAnswer = this.receiveMessage().payload;
+                String serverAnswer = this.protocol.receiveMessage().payload;
                 if(serverAnswer!=null)System.out.println(serverAnswer);
                 
                 if(serverAnswer.contains("Che peccato, Il mostro ti ha impaurito!") || serverAnswer.contains("Il mostro ti ha ucciso")){
@@ -29,7 +28,7 @@ public class Client extends TCPClient {
                 }
                 if (serverAnswer.contains("Il mostro è stato sconfitto Congratulazioni!!")){
                     this.canSend = true;
-                    serverAnswer = this.receiveMessage().payload;
+                    serverAnswer = this.protocol.receiveMessage().payload;
                     if (serverAnswer.contains("Grazie per aver giocato!")){
                         System.out.println(serverAnswer);
                         System.exit(0);
@@ -56,7 +55,8 @@ public class Client extends TCPClient {
     public void sendBehaviour(){
         while(true){
             if(this.canSend){    
-                this.sendMessage(this.userInput.nextLine());
+
+                this.protocol.sendMessage(new Message(this.userInput.nextLine()));
                 this.canSend = false;
             }
         }
