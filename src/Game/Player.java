@@ -18,7 +18,7 @@ public class Player extends Monster{
         //calcolo i danni sostenuti dal player
         int playerLoss = rand.nextInt(this.getHP())+1;
         //calcolo i danni sostenuti dal mostro
-        int monsterLoss = rand.nextInt(monster.getHP())+50000000;
+        int monsterLoss = rand.nextInt(monster.getHP())+1;
         //infliggo i danni al player
         this.takeDamage(playerLoss);
         //infliggo i danni al mostro
