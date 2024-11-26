@@ -1,5 +1,5 @@
-import Client_Server.Message;
-import Client_Server.ProtocolClient;
+import Communication.Message;
+import Communication.ProtocolClient;
 
 public class Client extends ProtocolClient {
     public volatile boolean canSend;
@@ -10,7 +10,7 @@ public class Client extends ProtocolClient {
     }
     
     public static void main(String args[]) throws Exception{
-        ProtocolClient client = new Client("127.0.0.1", 20000);
+        Client client = new Client("127.0.0.1", 20000);
         client.multiDial();
     }
 
@@ -38,14 +38,6 @@ public class Client extends ProtocolClient {
 
             }
         }catch(NullPointerException e){
-            try {
-                if(!this.canSend){
-                    long sleep = 10000;
-                    Thread.sleep(sleep);
-                }   
-            } catch (InterruptedException e1) {
-                // TODO: handle exception
-            }
             System.out.println("Stiamo riscontrando dei problemi sul server, procederemo a chiudere la connessione, ci scusiamo per il disagio");
             System.exit(0);
         }

@@ -1,4 +1,4 @@
-package Client_Server;
+package Communication;
 
 public class Message {
     public String payload;

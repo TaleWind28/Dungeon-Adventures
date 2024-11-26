@@ -1,4 +1,4 @@
-package Client_Server;
+package Communication;
 
 import java.net.Socket;
 

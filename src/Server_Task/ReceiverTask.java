@@ -1,16 +1,17 @@
 package Server_Task;
-import java.util.Scanner;
 
-import Client_Server.TCP;
-import Client_Server.ProtocolClient;
+import java.util.Scanner;
+import Communication.Protocol;
 
 public class ReceiverTask implements Runnable{
-    TCP proto;
+    Protocol proto;
     Scanner userInput; 
-    public ReceiverTask(ProtocolClient proto, Scanner userInput){
+    
+    public ReceiverTask(Protocol proto, Scanner userInput){
         this.proto = proto;
         this.userInput = userInput;
     }
+
     public void run(){
         String serverResponse = this.proto.receiveMessage().payload;
                 System.out.println(serverResponse);

@@ -4,37 +4,42 @@ import Game.Monster;
 import Game.Player;
 import java.net.Socket;
 
-import Client_Server.TCP;
-import Client_Server.ProtocolServer;
+import Communication.Message;
+import Communication.Protocol;
+import Communication.ProtocolServer;
 
-public class Handler_Task extends TCP implements Runnable{
+public class Handler_Task implements Runnable{
     private Socket client;
     private GameFactory factory;
     private ProtocolServer disconnectBehaviour;
+    private Protocol protocol;
     
-    public Handler_Task(Socket client_socket) throws Exception{
+    public Handler_Task(Socket client_socket,Protocol protocol) throws Exception{
         super();
         this.client = client_socket;
-        setSender(client_socket);
-        setReceiver(client_socket);
+        this.protocol = protocol;
+        protocol.setSender(client_socket);
+        protocol.setReceiver(client_socket);
         this.factory = new GameFactory();
         this.disconnectBehaviour = null; 
     }
     //overloading
-    public Handler_Task(Socket client_socket,ProtocolServer disconnection) throws Exception{
+    public Handler_Task(Socket client_socket,ProtocolServer disconnection,Protocol protocol) throws Exception{
         super();
         this.client = client_socket;
-        setSender(client_socket);
-        setReceiver(client_socket);
+        this.protocol = protocol;
+        protocol.setSender(client_socket);
+        protocol.setReceiver(client_socket);
         this.factory = new GameFactory();
         this.disconnectBehaviour = disconnection; 
     }
     //overloading
-    public Handler_Task(Socket client_socket,String delimiter) throws Exception{
+    public Handler_Task(Socket client_socket,String delimiter,Protocol protocol) throws Exception{
         super();
+        this.protocol = protocol;
         this.client = client_socket;
-        setSender(client_socket);
-        setReceiver(client_socket);
+        protocol.setSender(client_socket);
+        protocol.setReceiver(client_socket);
         this.factory = new GameFactory(); 
     }
     //implementazione della task
@@ -50,12 +55,12 @@ public class Handler_Task extends TCP implements Runnable{
             while(true){
                 //genero il mostro
                 Monster m1 = factory.createMonster();
-                this.sendMessage("Benvenuto o mio eroe aiutami a sconfiggere il mostro che ti si para davanti agli occhi\nPer quanto ti riguarda hai "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni rimanenti");
+                this.protocol.sendMessage(new Message("Benvenuto o mio eroe aiutami a sconfiggere il mostro che ti si para davanti agli occhi\nPer quanto ti riguarda hai "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni rimanenti"));
                 System.out.println(m1.getHP());
                 //ciclo finchè non muore il mostro
                 while(m1.isAlive()){
-                    this.sendMessage("Al mostro rimangono "+m1.getHP()+" punti ferita");
-                    String client_input = this.receiveMessage().payload;
+                    this.protocol.sendMessage(new Message("Al mostro rimangono "+m1.getHP()+" punti ferita"));
+                    String client_input = this.protocol.receiveMessage().payload;
                     System.out.println(client_input);
                     switch (client_input) {
                         case "Attacca":
@@ -69,7 +74,7 @@ public class Handler_Task extends TCP implements Runnable{
                         case "Termina":
                             client_response = "Che peccato, Il mostro ti ha impaurito!";
                             //System.out.println(client_response);
-                            this.sendMessage(client_response);
+                            this.protocol.sendMessage(new Message(client_response));
                             this.disconnectBehaviour.onClientDisconnect(this.client);
                             return;
                         default:
@@ -80,19 +85,19 @@ public class Handler_Task extends TCP implements Runnable{
                         client_response += "\nTi rimangono "+p1.getHP()+" punti ferita e "+p1.getPotionLeft()+" pozioni di cura"; 
                     }else{
                         client_response += "\nIl mostro ti ha ucciso";
-                        this.sendMessage(client_response);
+                        this.protocol.sendMessage(new Message(client_response));
                         System.out.println(client_response);
                         this.disconnectBehaviour.onClientDisconnect(this.client);
                         return;
                     }
-                    this.sendMessage(client_response);
+                    this.protocol.sendMessage(new Message(client_response));
                     
                 }
-                this.sendMessage(client_response+"\nIl mostro è stato sconfitto Congratulazioni!!\nPer continuare a giocare digitare si");
-                client_response = this.receiveMessage().payload;
+                this.protocol.sendMessage(new Message(client_response+"\nIl mostro è stato sconfitto Congratulazioni!!\nPer continuare a giocare digitare si"));
+                client_response = this.protocol.receiveMessage().payload;
                 if(!client_response.equals("si")){
                     System.out.println(client_response+" risposta client");
-                    sendMessage("Grazie per aver giocato!");
+                    this.protocol.sendMessage(new Message("Grazie per aver giocato!"));
                     this.disconnectBehaviour.onClientDisconnect(this.client);
                     return;
                 }   

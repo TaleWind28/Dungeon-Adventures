@@ -1,12 +1,10 @@
-package Client_Server;
-import java.net.ServerSocket;
-import java.util.concurrent.*;
+package Communication;
 
-import Server_Task.Handler_Task;
+import java.util.concurrent.*;
 import java.util.*;
 import java.net.Socket;
 
-public class ProtocolServer {
+public abstract class ProtocolServer extends CommunicationProtocol{
     public int PORT;
     public ExecutorService pool;
     //private int activeClients = 0;
@@ -51,17 +49,5 @@ public class ProtocolServer {
     }
 
     //apre il socket e passa al threadpool i vari client
-    public void dial(){
-        while(true){
-            try (ServerSocket server = new ServerSocket(this.PORT)) {
-                Socket client_Socket = server.accept();
-                //realizzare con factory per miglior versatilità
-                Handler_Task task = new Handler_Task(client_Socket,this);
-                addClient(client_Socket);
-                this.pool.execute(task);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        }
-    }
+    public abstract void dial();
 }

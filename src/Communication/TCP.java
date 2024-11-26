@@ -1,4 +1,4 @@
-package Client_Server;
+package Communication;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
