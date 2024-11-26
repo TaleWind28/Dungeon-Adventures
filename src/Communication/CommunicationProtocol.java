@@ -5,7 +5,6 @@ public class CommunicationProtocol {
 
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
-        
     }
 
 }
