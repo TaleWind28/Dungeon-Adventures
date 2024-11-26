@@ -1,9 +1,12 @@
 package Client_Server;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Scanner;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.Socket;
 
 public class TCP implements CommunicationProtocol{
     protected Scanner receiver;
@@ -18,18 +21,24 @@ public class TCP implements CommunicationProtocol{
         this.delimiter = delimiter;
     }
 
-    public void setReceiver(InputStream receiver) {
-        this.receiver = new Scanner(receiver);
-        this.receiver.useDelimiter(this.delimiter);
+    public void setReceiver(Socket receiver) {
+        try{
+            this.receiver = new Scanner(receiver.getInputStream());
+            this.receiver.useDelimiter(this.delimiter);
+        }
+        catch(IOException e){
+            System.out.println("Errore nel settare il receiver");
+        }
     }
 
-    //Pensare se preferire questo a Strategy per cambiare tipo di protocollo
-    public void setReceiver(ByteArrayOutputStream receiver){
-        System.out.println("ciao");
-    }
-
-    public void setSender(OutputStream sender){
-        this.sender = new PrintWriter(sender,true);
+    public void setSender(Socket sender){
+        try{
+            this.sender = new PrintWriter(sender.getOutputStream(),true);
+        }
+        catch(IOException e){
+            System.out.println("Errore nel settare il sender");
+        }
+        
     }
 
     //probilmente è un di più perchè se voglio settare un delimiter uso il costruttore

@@ -15,8 +15,8 @@ public class Handler_Task extends TCP implements Runnable{
     public Handler_Task(Socket client_socket) throws Exception{
         super();
         this.client = client_socket;
-        setSender(this.client.getOutputStream());
-        setReceiver(this.client.getInputStream());
+        setSender(client_socket);
+        setReceiver(client_socket);
         this.factory = new GameFactory();
         this.disconnectBehaviour = null; 
     }
@@ -24,8 +24,8 @@ public class Handler_Task extends TCP implements Runnable{
     public Handler_Task(Socket client_socket,TCPServer disconnection) throws Exception{
         super();
         this.client = client_socket;
-        setSender(this.client.getOutputStream());
-        setReceiver(this.client.getInputStream());
+        setSender(client_socket);
+        setReceiver(client_socket);
         this.factory = new GameFactory();
         this.disconnectBehaviour = disconnection; 
     }
@@ -33,8 +33,8 @@ public class Handler_Task extends TCP implements Runnable{
     public Handler_Task(Socket client_socket,String delimiter) throws Exception{
         super();
         this.client = client_socket;
-        setSender(this.client.getOutputStream());
-        setReceiver(this.client.getInputStream());
+        setSender(client_socket);
+        setReceiver(client_socket);
         this.factory = new GameFactory(); 
     }
     //implementazione della task

@@ -28,8 +28,8 @@ public abstract class TCPClient extends TCP{
         //apro il socket
         try (Socket sock = new Socket(this.ip,this.port)) {
             //imposto receiver, sender e senderThread
-            setReceiver(sock.getInputStream());
-            setSender(sock.getOutputStream());
+            setReceiver(sock);
+            setSender(sock);
             this.setReceiverThread();
             //attivo il thread di ricezione
             this.receiverThread.start();

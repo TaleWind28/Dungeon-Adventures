@@ -32,7 +32,7 @@ public class TCPServer {
             System.out.println(e.getClass()+": "+e.getStackTrace());   
         }
         if(activeClients.isEmpty()){
-            System.out.println("Timeou Disconnessione iniziato");
+            System.out.println("Timeout Disconnessione iniziato");
             this.timeoutTask = timeoutScheduler.schedule(()->{System.out.println("Timeout scaduto, terminazione server");this.pool.shutdownNow();System.exit(0);}, CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS);
         }
         
